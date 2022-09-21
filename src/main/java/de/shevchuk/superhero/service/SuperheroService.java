@@ -1,25 +1,30 @@
 package de.shevchuk.superhero.service;
 
+import de.shevchuk.superhero.entity.Superhero;
 import de.shevchuk.superhero.model.SuperheroDto;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import lombok.RequiredArgsConstructor;
+import de.shevchuk.superhero.model.SuperheroRepository;
+import de.shevchuk.superhero.model.SuperheroResponseDto;
+import java.util.Optional;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class SuperheroService {
 
-    public Map<String, SuperheroDto> superheroesMap = new HashMap<>();
-    public List<SuperheroDto> superheroes;
+    private final SuperheroRepository superheroRepository;
 
-    public void createSuperhero(SuperheroDto superhero) {
-        superheroesMap.put(superhero.getAlias(), superhero);
+    public SuperheroResponseDto createSuperhero(SuperheroDto superhero) {
+        final Superhero entity = Superhero.fromSuperheroDto(superhero);
+        final Superhero saved = superheroRepository.save(entity);
+        log.info("Superhero has been created!");
+        return SuperheroResponseDto.fromEntity(saved);
     }
 
-    public SuperheroDto getSuperhero(String alias) {
-        final SuperheroDto superheroDto = superheroesMap.get(alias);
-        return superheroDto;
+    public SuperheroResponseDto getSuperhero(long id) {
+        final Optional<Superhero> superheroOptional = superheroRepository.findById(id);
+        return superheroOptional.map(SuperheroResponseDto::fromEntity).orElse(null);
     }
 }

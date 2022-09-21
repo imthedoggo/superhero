@@ -1,6 +1,7 @@
 package de.shevchuk.superhero.controller;
 
 import de.shevchuk.superhero.model.SuperheroDto;
+import de.shevchuk.superhero.model.SuperheroResponseDto;
 import de.shevchuk.superhero.service.SuperheroService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -19,12 +20,17 @@ public class SuperheroController {
     private final SuperheroService superheroService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public void addSuperhero(@RequestBody SuperheroDto dto) {
-        superheroService.createSuperhero(dto);
+    public SuperheroResponseDto createSuperhero(@RequestBody SuperheroDto dto) {
+        return superheroService.createSuperhero(dto);
     }
 
-    @GetMapping(value = "/{alias}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuperheroDto getSuperhero(@PathVariable("alias") String alias) {
-        return superheroService.getSuperhero(alias);
+    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public SuperheroResponseDto getSuperhero(@PathVariable("id") long id) {
+        return superheroService.getSuperhero(id);
     }
+
+//    @PostMapping(value = "/weapons", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public void addWeapon(@RequestBody WeaponDto dto) {
+//        superheroService.createWeapon(dto);
+//    }
 }

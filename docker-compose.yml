@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:10.5
+    restart: always
+    environment:
+      - POSTGRES_DB=superhero
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5438:5432'
