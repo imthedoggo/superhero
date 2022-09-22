@@ -1,7 +1,16 @@
 package de.shevchuk.superhero.controller;
 
-import de.shevchuk.superhero.model.SuperheroDto;
-import de.shevchuk.superhero.model.SuperheroResponseDto;
+import de.shevchuk.superhero.dto.AssociationDto;
+import de.shevchuk.superhero.dto.AssociationResponseDto;
+import de.shevchuk.superhero.dto.PowerDto;
+import de.shevchuk.superhero.dto.PowerResponseDto;
+import de.shevchuk.superhero.dto.SuperheroDto;
+import de.shevchuk.superhero.dto.SuperheroResponseDto;
+import de.shevchuk.superhero.dto.WeaponDto;
+import de.shevchuk.superhero.dto.WeaponResponseDto;
+import de.shevchuk.superhero.exceptions.AssociationNotFoundException;
+import de.shevchuk.superhero.exceptions.PowerNotFoundException;
+import de.shevchuk.superhero.exceptions.WeaponNotFoundException;
 import de.shevchuk.superhero.service.SuperheroService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -20,7 +29,8 @@ public class SuperheroController {
     private final SuperheroService superheroService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuperheroResponseDto createSuperhero(@RequestBody SuperheroDto dto) {
+    public SuperheroResponseDto createSuperhero(@RequestBody SuperheroDto dto)
+        throws WeaponNotFoundException, AssociationNotFoundException, PowerNotFoundException {
         return superheroService.createSuperhero(dto);
     }
 
@@ -29,8 +39,18 @@ public class SuperheroController {
         return superheroService.getSuperhero(id);
     }
 
-//    @PostMapping(value = "/weapons", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public void addWeapon(@RequestBody WeaponDto dto) {
-//        superheroService.createWeapon(dto);
-//    }
+    @PostMapping(value = "/weapons", produces = MediaType.APPLICATION_JSON_VALUE)
+    public WeaponResponseDto createWeapon(@RequestBody WeaponDto dto) {
+        return superheroService.createWeapon(dto);
+    }
+
+    @PostMapping(value = "/associations", produces = MediaType.APPLICATION_JSON_VALUE)
+    public AssociationResponseDto createAssociation(@RequestBody AssociationDto dto) {
+        return superheroService.createAssociation(dto);
+    }
+
+    @PostMapping(value = "/powers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PowerResponseDto createPower(@RequestBody PowerDto dto) {
+        return superheroService.createPower(dto);
+    }
 }

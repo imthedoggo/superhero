@@ -2,8 +2,8 @@ package de.shevchuk.superhero.unitest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import de.shevchuk.superhero.model.SuperheroDto;
-import de.shevchuk.superhero.model.SuperheroResponseDto;
+import de.shevchuk.superhero.dto.SuperheroDto;
+import de.shevchuk.superhero.dto.SuperheroResponseDto;
 import de.shevchuk.superhero.service.SuperheroService;
 import java.util.Set;
 import org.junit.jupiter.api.Test;

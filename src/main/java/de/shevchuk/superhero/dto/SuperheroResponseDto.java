@@ -1,8 +1,12 @@
-package de.shevchuk.superhero.model;
+package de.shevchuk.superhero.dto;
 
 import de.shevchuk.superhero.entity.Superhero;
+import de.shevchuk.superhero.entity.SuperheroAssociation;
+import de.shevchuk.superhero.entity.SuperheroPower;
+import de.shevchuk.superhero.entity.SuperheroWeapon;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,11 +28,25 @@ public class SuperheroResponseDto {
     private Set<String> associations = new HashSet<>();
 
     public static SuperheroResponseDto fromEntity(Superhero entity) {
+
+        final Set<String> weapons = entity.getWeapons().stream()
+            .map(SuperheroWeapon::getWeaponId)
+            .collect(Collectors.toSet());
+        final Set<String> powers = entity.getPowers().stream()
+            .map(SuperheroPower::getPowerId)
+            .collect(Collectors.toSet());
+        final Set<String> associations = entity.getAssociations().stream()
+            .map(SuperheroAssociation::getAssociationId)
+            .collect(Collectors.toSet());
+
         return SuperheroResponseDto.builder()
             .id(entity.getId())
             .alias(entity.getAlias())
             .name(entity.getName())
             .origin(entity.getOrigin())
+            .weapons(weapons)
+            .powers(powers)
+            .associations(associations)
             .build();
     }
 }

@@ -1,4 +1,4 @@
-package de.shevchuk.superhero.model;
+package de.shevchuk.superhero.dto;
 
 import java.util.Set;
 import lombok.AllArgsConstructor;

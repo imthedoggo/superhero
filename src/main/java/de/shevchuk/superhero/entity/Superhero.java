@@ -1,11 +1,15 @@
 package de.shevchuk.superhero.entity;
 
-import de.shevchuk.superhero.model.SuperheroDto;
-import java.util.Set;
+import de.shevchuk.superhero.dto.SuperheroDto;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -28,11 +32,19 @@ public class Superhero {
 
     private String alias;
     private String name;
-//    private Set<Power> powers;
-//    private Set<Weapon> weapons;
+    @OneToMany(mappedBy = "superheroId", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+    CascadeType.REMOVE})
+    @Builder.Default
+    private List<SuperheroPower> powers = new ArrayList<>();
+    @OneToMany(mappedBy = "superheroId", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+    CascadeType.REMOVE})
+    @Builder.Default
+    private List<SuperheroWeapon> weapons = new ArrayList<>();
     private String origin;
-//    private Set<Association> associations;
-
+    @OneToMany(mappedBy = "superheroId", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+        CascadeType.REMOVE})
+    @Builder.Default
+    private List<SuperheroAssociation> associations = new ArrayList<>();
 
     public static Superhero fromSuperheroDto(SuperheroDto dto) {
         if (dto == null) {
