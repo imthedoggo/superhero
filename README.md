@@ -161,6 +161,7 @@ Response:
 ```
 
 ## Future improvements:
+* Debug the service unitests (see FIXME)
 * Introduce endpoints to fully support CRUD operations for superheroes and their attributes, and extend tests accordingly
-* Split the controller into attribute-specific controller, once extending CRUD functionalities or attribute-fields
+* Split the controller and service into attribute-specific classes (e.g. WeaponController, WeaponService), once extending CRUD functionalities or attribute-fields
 * Introduce error handling and input validations to give better visibility for client requests

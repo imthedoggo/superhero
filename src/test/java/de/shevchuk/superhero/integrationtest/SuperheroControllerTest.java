@@ -1,5 +1,9 @@
 package de.shevchuk.superhero.integrationtest;
 
+import static de.shevchuk.superhero.TestConstants.ASSOCIATION;
+import static de.shevchuk.superhero.TestConstants.HERO;
+import static de.shevchuk.superhero.TestConstants.POWER;
+import static de.shevchuk.superhero.TestConstants.WEAPON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -26,12 +30,6 @@ import org.springframework.test.web.servlet.MvcResult;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class SuperheroControllerTest {
-
-    public static final WeaponDto WEAPON = new WeaponDto("bite");
-    public static final PowerDto POWER = new PowerDto("bite");
-    public static final AssociationDto ASSOCIATION = new AssociationDto("avangers");
-    public static final SuperheroDto HERO = new SuperheroDto(
-            "superdoge", "dog", Set.of(POWER.getId()), Set.of(WEAPON.getId()), "earth", Set.of(ASSOCIATION.getId()));
 
     @Autowired
     private MockMvc mvc;
