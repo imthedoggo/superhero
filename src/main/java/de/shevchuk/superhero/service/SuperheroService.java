@@ -25,7 +25,6 @@ import de.shevchuk.superhero.model.SuperheroRepository;
 import de.shevchuk.superhero.dto.SuperheroResponseDto;
 import de.shevchuk.superhero.model.SuperheroWeaponRepository;
 import de.shevchuk.superhero.model.WeaponRepository;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import lombok.AllArgsConstructor;

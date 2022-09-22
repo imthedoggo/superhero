@@ -12,6 +12,7 @@ import de.shevchuk.superhero.exceptions.AssociationNotFoundException;
 import de.shevchuk.superhero.exceptions.PowerNotFoundException;
 import de.shevchuk.superhero.exceptions.WeaponNotFoundException;
 import de.shevchuk.superhero.service.SuperheroService;
+import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class SuperheroController {
     private final SuperheroService superheroService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuperheroResponseDto createSuperhero(@RequestBody SuperheroDto dto)
+    public SuperheroResponseDto createSuperhero(@Valid @RequestBody SuperheroDto dto)
         throws WeaponNotFoundException, AssociationNotFoundException, PowerNotFoundException {
         return superheroService.createSuperhero(dto);
     }

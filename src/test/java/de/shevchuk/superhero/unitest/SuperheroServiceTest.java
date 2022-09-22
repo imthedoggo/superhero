@@ -4,21 +4,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.shevchuk.superhero.dto.SuperheroDto;
 import de.shevchuk.superhero.dto.SuperheroResponseDto;
+import de.shevchuk.superhero.exceptions.AssociationNotFoundException;
+import de.shevchuk.superhero.exceptions.PowerNotFoundException;
+import de.shevchuk.superhero.exceptions.WeaponNotFoundException;
 import de.shevchuk.superhero.service.SuperheroService;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-//@ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class SuperheroServiceTest {
 
-    @Autowired
+    @InjectMocks
     private SuperheroService superheroService;
 
     @Test
-    public void testSuperheroCreation() {
+    public void testSuperheroCreation()
+        throws AssociationNotFoundException, PowerNotFoundException, WeaponNotFoundException {
         final SuperheroDto inputSuperhero = new SuperheroDto("a", "b", Set.of(), Set.of(), "a", Set.of());
         final SuperheroResponseDto savedSuperhero = superheroService.createSuperhero(inputSuperhero);
         assertEquals(inputSuperhero.getAlias(), savedSuperhero.getAlias());
@@ -30,7 +34,8 @@ public class SuperheroServiceTest {
     }
 
     @Test
-    public void testSuperheroFetching() {
+    public void testSuperheroFetching()
+        throws AssociationNotFoundException, PowerNotFoundException, WeaponNotFoundException {
         final SuperheroDto inputSuperhero = new SuperheroDto("a", "b", Set.of(), Set.of(), "a", Set.of());
         final SuperheroResponseDto savedSuperhero = superheroService.createSuperhero(inputSuperhero);
         final SuperheroResponseDto fetchedSuperhero = superheroService.getSuperhero(savedSuperhero.getId());
