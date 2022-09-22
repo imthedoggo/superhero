@@ -30,10 +30,18 @@ Start the spring project
 ```
 ./gradlew bootRun
 ```
+
 ### Deploy:
+Build Docker image
+```
+docker build -t imthedoggo/superhero .
+```
+Run the image locally
+```
+docker run -p 8081:8080 -d imthedoggo/superhero 
+```
 
-
-## Endpoints:
+### Endpoints:
 
 | Method  | Resource                      | Description              |
 |---------|-------------------------------|--------------------------|
