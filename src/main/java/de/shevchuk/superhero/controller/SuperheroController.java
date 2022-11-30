@@ -15,6 +15,7 @@ import de.shevchuk.superhero.service.SuperheroService;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,5 +54,10 @@ public class SuperheroController {
     @PostMapping(value = "/powers", produces = MediaType.APPLICATION_JSON_VALUE)
     public PowerResponseDto createPower(@RequestBody PowerDto dto) {
         return superheroService.createPower(dto);
+    }
+
+    @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteSuperhero(@PathVariable("id") long id) {
+        superheroService.deleteSuperhero(id);
     }
 }

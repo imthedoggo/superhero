@@ -4,12 +4,13 @@ import de.shevchuk.superhero.dto.AssociationDto;
 import de.shevchuk.superhero.dto.AssociationResponseDto;
 import de.shevchuk.superhero.dto.PowerDto;
 import de.shevchuk.superhero.dto.PowerResponseDto;
+import de.shevchuk.superhero.dto.SuperheroDto;
+import de.shevchuk.superhero.dto.SuperheroResponseDto;
 import de.shevchuk.superhero.dto.WeaponDto;
 import de.shevchuk.superhero.dto.WeaponResponseDto;
 import de.shevchuk.superhero.entity.Association;
 import de.shevchuk.superhero.entity.Power;
 import de.shevchuk.superhero.entity.Superhero;
-import de.shevchuk.superhero.dto.SuperheroDto;
 import de.shevchuk.superhero.entity.SuperheroAssociation;
 import de.shevchuk.superhero.entity.SuperheroPower;
 import de.shevchuk.superhero.entity.SuperheroWeapon;
@@ -22,7 +23,6 @@ import de.shevchuk.superhero.model.PowerRepository;
 import de.shevchuk.superhero.model.SuperheroAssociationRepository;
 import de.shevchuk.superhero.model.SuperheroPowerRepository;
 import de.shevchuk.superhero.model.SuperheroRepository;
-import de.shevchuk.superhero.dto.SuperheroResponseDto;
 import de.shevchuk.superhero.model.SuperheroWeaponRepository;
 import de.shevchuk.superhero.model.WeaponRepository;
 import java.util.Optional;
@@ -46,6 +46,10 @@ public class SuperheroService {
 
     public SuperheroResponseDto createSuperhero(SuperheroDto superhero)
         throws WeaponNotFoundException, PowerNotFoundException, AssociationNotFoundException {
+        validateAssociations(superhero.getAssociations());
+        validatePowers(superhero.getPowers());
+        validateWeapons(superhero.getWeapons());
+
         final Superhero entity = Superhero.fromSuperheroDto(superhero);
         final Superhero superheroSaved = superheroRepository.save(entity);
         log.info("Superhero has been created!");
@@ -81,30 +85,49 @@ public class SuperheroService {
         return PowerResponseDto.fromEntity(saved);
     }
 
-    private void saveAssociations(Set<String> associations, Superhero superheroSaved) throws AssociationNotFoundException {
+    private void validateAssociations(Set<String> associations) throws AssociationNotFoundException {
         for (String association: associations) {
             associationRepository.findById(association).orElseThrow(() -> new AssociationNotFoundException(String.format("The association %s doesn't exist.", association)));
+        }
+    }
+
+    private void saveAssociations(Set<String> associations, Superhero superheroSaved) throws AssociationNotFoundException {
+        for (String association: associations) {
             final SuperheroAssociation associationSaved = superheroAssociationRepository.save(
                 SuperheroAssociation.fromIds(superheroSaved.getId(), association));
             superheroSaved.getAssociations().add(associationSaved);
         }
     }
 
-    private void savePowers(Set<String> powers, Superhero superheroSaved) throws PowerNotFoundException {
+    private void validatePowers(Set<String> powers) throws PowerNotFoundException {
         for (String power: powers) {
             powerRepository.findById(power).orElseThrow(() -> new PowerNotFoundException(String.format("The power %s doesn't exist.", power)));
+        }
+    }
+
+    private void savePowers(Set<String> powers, Superhero superheroSaved) throws PowerNotFoundException {
+        for (String power: powers) {
             final SuperheroPower powerSaved = superheroPowerRepository.save(
                 SuperheroPower.fromIds(superheroSaved.getId(), power));
             superheroSaved.getPowers().add(powerSaved);
         }
     }
 
-    private void saveWeapons(Set<String> weapons, Superhero superheroSaved) throws WeaponNotFoundException {
+    private void validateWeapons(Set<String> weapons) throws WeaponNotFoundException {
         for (String weapon: weapons) {
             weaponRepository.findById(weapon).orElseThrow(() -> new WeaponNotFoundException(String.format("The weapon %s doesn't exist.", weapon)));
+        }
+    }
+
+    private void saveWeapons(Set<String> weapons, Superhero superheroSaved) throws WeaponNotFoundException {
+        for (String weapon: weapons) {
             final SuperheroWeapon weaponSaved = superheroWeaponRepository.save(
                 SuperheroWeapon.fromIds(superheroSaved.getId(), weapon));
             superheroSaved.getWeapons().add(weaponSaved);
         }
+    }
+
+    public void deleteSuperhero(long id) {
+        superheroRepository.deleteById(id);
     }
 }

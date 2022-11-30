@@ -165,3 +165,5 @@ Response:
 * Introduce endpoints to fully support CRUD operations for superheroes and their attributes, and extend tests accordingly
 * Split the controller and service into attribute-specific classes (e.g. WeaponController, WeaponService), once extending CRUD functionalities or attribute-fields
 * Introduce error handling and input validations to give better visibility for client requests
+* Authentication e.g. access with JWT token
+* Add an API rate limit for security reasons

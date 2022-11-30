@@ -23,6 +23,7 @@ import de.shevchuk.superhero.model.PowerRepository;
 import de.shevchuk.superhero.model.WeaponRepository;
 import de.shevchuk.superhero.service.SuperheroService;
 import java.util.Optional;
+import javax.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,20 +53,20 @@ public class SuperheroServiceTest {
         assertEquals(HERO.getAssociations(), savedSuperhero.getAssociations());
     }
 
-    //FIXME: 22.09.22 -> fix LazyInitializationException
-//    @Test
-//    public void testSuperheroFetching()
-//        throws AssociationNotFoundException, PowerNotFoundException, WeaponNotFoundException {
-//        final SuperheroResponseDto savedSuperhero = superheroService.createSuperhero(HERO);
-//        final SuperheroResponseDto fetchedSuperhero = superheroService.getSuperhero(savedSuperhero.getId());
-//        assertEquals(savedSuperhero.getId(), fetchedSuperhero.getId());
-//        assertEquals(savedSuperhero.getAlias(), fetchedSuperhero.getAlias());
-//        assertEquals(savedSuperhero.getName(), fetchedSuperhero.getName());
-//        assertEquals(savedSuperhero.getOrigin(), fetchedSuperhero.getOrigin());
-//        assertEquals(savedSuperhero.getPowers(), fetchedSuperhero.getPowers());
-//        assertEquals(savedSuperhero.getWeapons(), fetchedSuperhero.getWeapons());
-//        assertEquals(savedSuperhero.getAssociations(), fetchedSuperhero.getAssociations());
-//    }
+    @Test
+    @Transactional
+    public void testSuperheroFetching()
+        throws AssociationNotFoundException, PowerNotFoundException, WeaponNotFoundException {
+        final SuperheroResponseDto savedSuperhero = superheroService.createSuperhero(HERO);
+        final SuperheroResponseDto fetchedSuperhero = superheroService.getSuperhero(savedSuperhero.getId());
+        assertEquals(savedSuperhero.getId(), fetchedSuperhero.getId());
+        assertEquals(savedSuperhero.getAlias(), fetchedSuperhero.getAlias());
+        assertEquals(savedSuperhero.getName(), fetchedSuperhero.getName());
+        assertEquals(savedSuperhero.getOrigin(), fetchedSuperhero.getOrigin());
+        assertEquals(savedSuperhero.getPowers(), fetchedSuperhero.getPowers());
+        assertEquals(savedSuperhero.getWeapons(), fetchedSuperhero.getWeapons());
+        assertEquals(savedSuperhero.getAssociations(), fetchedSuperhero.getAssociations());
+    }
 
     @Test
     void testPowerCreation() {
